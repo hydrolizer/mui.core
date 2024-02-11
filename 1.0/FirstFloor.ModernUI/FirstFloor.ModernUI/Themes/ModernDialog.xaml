@@ -1,85 +1,117 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:FirstFloor.ModernUI.Windows.Controls">
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:FirstFloor.ModernUI.Windows.Controls"
+	xmlns:converters="clr-namespace:FirstFloor.ModernUI.Windows.Converters">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/Button.xaml" />
-        <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/Converters.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/Button.xaml" />
+		<ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/Converters.xaml" />
+	</ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="controls:ModernDialog">
-        <Setter Property="BackgroundContent" Value="{DynamicResource WindowBackgroundContent}" />
-        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
-        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
-        <Setter Property="Foreground" Value="{DynamicResource WindowText}" />
-        <Setter Property="MaxWidth" Value="640" />
-        <Setter Property="MaxHeight" Value="640" />
-        <Setter Property="MinWidth" Value="240" />
-        <Setter Property="MinHeight" Value="240" />
-        <Setter Property="ShowInTaskbar" Value="False" />
-        <Setter Property="ResizeMode" Value="NoResize" />
-        <Setter Property="SizeToContent" Value="WidthAndHeight" />
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+	<converters:ModernDialogImageConverter x:Key="ModernDialogImageConverter" />
 
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="controls:ModernDialog">
-                    <Border Background="{DynamicResource WindowBackground}" Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}">
-                        <Grid>
-                            <Border BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1">
-                                <AdornerDecorator>
-                                    <Grid>
-                                        <!-- window background content -->
-                                        <ContentControl Content="{TemplateBinding BackgroundContent}" />
+	<Style TargetType="controls:ModernDialog">
+		<Setter Property="BackgroundContent" Value="{DynamicResource WindowBackgroundContent}" />
+		<Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
+		<Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
+		<Setter Property="Foreground" Value="{DynamicResource WindowText}" />
+		<Setter Property="MaxWidth" Value="640" />
+		<Setter Property="MaxHeight" Value="640" />
+		<Setter Property="MinWidth" Value="240" />
+		<Setter Property="MinHeight" Value="240" />
+		<Setter Property="ShowInTaskbar" Value="False" />
+		<Setter Property="ResizeMode" Value="NoResize" />
+		<Setter Property="SizeToContent" Value="WidthAndHeight" />
+		<Setter Property="UseLayoutRounding" Value="True" />
+		<Setter Property="TextOptions.TextFormattingMode" Value="Display" />
 
-                                        <!-- top blob -->
-                                        <Canvas>
-                                            <Rectangle Fill="{DynamicResource Accent}" Canvas.Top="18" Canvas.Left="24" Width="100" Height="6" />
-                                        </Canvas>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:ModernDialog">
+					<Border Background="{DynamicResource WindowBackground}" Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}">
+						<Grid>
+							<Border BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1">
+								<AdornerDecorator>
+									<Grid>
+										<!-- window background content -->
+										<ContentControl Content="{TemplateBinding BackgroundContent}" />
 
-                                        <Grid Margin="24">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
+										<!-- top blob -->
+										<Canvas>
+											<Rectangle Fill="{DynamicResource Accent}" Canvas.Top="18" Canvas.Left="24" Width="100" Height="6" />
+										</Canvas>
 
-                                            <!-- title -->
-                                            <TextBlock DataContext="{TemplateBinding Title}" Text="{Binding Converter={StaticResource ToUpperConverter}}" 
+										<Grid Margin="24">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="Auto" />
+												<RowDefinition Height="*" />
+												<RowDefinition Height="Auto" />
+											</Grid.RowDefinitions>
+
+											<!-- title -->
+											<TextBlock DataContext="{TemplateBinding Title}" Text="{Binding Converter={StaticResource ToUpperConverter}}" 
                                                    FontFamily="Segoe UI"
                                                    FontSize="24"
                                                    TextOptions.TextFormattingMode="Ideal"
                                                    TextTrimming="CharacterEllipsis" />
 
-                                            <!-- content -->
-                                            <controls:TransitioningContentControl Grid.Row="1" Margin="0,20" Content="{TemplateBinding Content}" />
+											<!-- content -->
+											<Grid Grid.Row="1" Margin="0,20">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto" />
+													<ColumnDefinition />
+												</Grid.ColumnDefinitions>
+												<Grid Margin="0,0,10,0">
+													<Grid.Style>
+														<Style TargetType="{x:Type Grid}">
+															<Style.Triggers>
+																<DataTrigger Binding="{Binding Image, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:ModernDialog}}}">
+																	<DataTrigger.Value>
+																		<MessageBoxImage>None</MessageBoxImage>
+																	</DataTrigger.Value>
+																	<Setter Property="Visibility" Value="Collapsed" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</Grid.Style>
+													<Image
+														VerticalAlignment="Center"
+														HorizontalAlignment="Center"
+														Stretch="None"
+														Source="{TemplateBinding Image, Converter={StaticResource ModernDialogImageConverter}}" />
+												</Grid>
+												<controls:TransitioningContentControl
+													Grid.Column="1"
+													VerticalAlignment="Center"
+													Content="{TemplateBinding Content}" />
+											</Grid>
 
-                                            <!-- buttons -->
-                                            <ItemsControl Grid.Row="2" ItemsSource="{TemplateBinding Buttons}" HorizontalAlignment="Right">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" />
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>
+											<!-- buttons -->
+											<ItemsControl Grid.Row="2" ItemsSource="{TemplateBinding Buttons}" HorizontalAlignment="Right">
+												<ItemsControl.ItemsPanel>
+													<ItemsPanelTemplate>
+														<StackPanel Orientation="Horizontal" />
+													</ItemsPanelTemplate>
+												</ItemsControl.ItemsPanel>
+											</ItemsControl>
 
-                                        </Grid>
-                                    </Grid>
-                                </AdornerDecorator>
-                            </Border>
-                            <Border BorderBrush="{DynamicResource WindowBorderActive}" BorderThickness="1" Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+										</Grid>
+									</Grid>
+								</AdornerDecorator>
+							</Border>
+							<Border BorderBrush="{DynamicResource WindowBorderActive}" BorderThickness="1" Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+						</Grid>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 
-        <Setter Property="WindowChrome.WindowChrome">
-            <Setter.Value>
-                <WindowChrome CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False" />
-            </Setter.Value>
-        </Setter>
-    </Style>
+		<Setter Property="WindowChrome.WindowChrome">
+			<Setter.Value>
+				<WindowChrome CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False" />
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 </ResourceDictionary>

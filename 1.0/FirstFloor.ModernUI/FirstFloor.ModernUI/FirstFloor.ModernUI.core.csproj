@@ -9,6 +9,7 @@
     <UseWPF>true</UseWPF>
     <!-- and/or -->
     <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DocumentationFile>bin\$(Configuration)\FirstFloor.ModernUI.XML</DocumentationFile>
   </PropertyGroup>
@@ -28,7 +29,4 @@
     <RootNamespace>FirstFloor.ModernUI</RootNamespace>
   </PropertyGroup>
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
-  <ItemGroup>
-    <PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
-  </ItemGroup>
 </Project>
