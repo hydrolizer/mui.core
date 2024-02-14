@@ -50,11 +50,11 @@
 											</Grid.RowDefinitions>
 
 											<!-- title -->
-											<TextBlock DataContext="{TemplateBinding Title}" Text="{Binding Converter={StaticResource ToUpperConverter}}" 
-                                                   FontFamily="Segoe UI"
-                                                   FontSize="24"
-                                                   TextOptions.TextFormattingMode="Ideal"
-                                                   TextTrimming="CharacterEllipsis" />
+											<TextBlock
+												DataContext="{TemplateBinding Title}"
+												Text="{Binding}" 
+												FontFamily="Segoe UI"
+												TextTrimming="CharacterEllipsis" />
 
 											<!-- content -->
 											<Grid Grid.Row="1" Margin="0,20">

@@ -72,7 +72,7 @@ namespace FirstFloor.ModernUI.Windows.Controls
         }
 
         private void OnSourceInitialized(object sender, EventArgs e)
-        {
+				{
             this.source = (HwndSource)HwndSource.FromVisual(this);
 
             // calculate the DPI used by WPF; this is the same as the system DPI
