@@ -47,6 +47,7 @@
 												<RowDefinition Height="Auto" />
 												<RowDefinition Height="*" />
 												<RowDefinition Height="Auto" />
+												<RowDefinition Height="Auto" />
 											</Grid.RowDefinitions>
 
 											<!-- title -->
@@ -87,8 +88,17 @@
 													Content="{TemplateBinding Content}" />
 											</Grid>
 
+											<!-- option -->
+											<CheckBox
+												x:Name="OptionCheckBox"
+												Grid.Row="2"
+												Margin="0,0,0,20"
+												HorizontalAlignment="Center"
+												Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OptionInfo.Content}"
+												IsThreeState="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OptionInfo.AllowNull}"
+												IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OptionInfo.DefaultValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 											<!-- buttons -->
-											<ItemsControl Grid.Row="2" ItemsSource="{TemplateBinding Buttons}" HorizontalAlignment="Right">
+											<ItemsControl Grid.Row="3" ItemsSource="{TemplateBinding Buttons}" HorizontalAlignment="Right">
 												<ItemsControl.ItemsPanel>
 													<ItemsPanelTemplate>
 														<StackPanel Orientation="Horizontal" />
@@ -103,6 +113,13 @@
 							<Border BorderBrush="{DynamicResource WindowBorderActive}" BorderThickness="1" Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 						</Grid>
 					</Border>
+					<ControlTemplate.Triggers>
+						<DataTrigger
+							Binding="{Binding RelativeSource={RelativeSource Self}, Path=OptionInfo}"
+							Value="{x:Null}">
+							<Setter TargetName="OptionCheckBox" Property="Visibility" Value="Collapsed" />
+						</DataTrigger>
+					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

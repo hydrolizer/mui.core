@@ -214,6 +214,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\ToLowerConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\ToUpperConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\DefaultContentLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\DialogOptionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\IContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\IContentLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Media\VisualTreeHelperEx.cs" />

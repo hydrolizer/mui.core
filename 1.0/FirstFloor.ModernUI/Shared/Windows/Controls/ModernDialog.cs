@@ -26,10 +26,27 @@ namespace FirstFloor.ModernUI.Windows.Controls
 
 		/// <summary/>
 		public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(
-			"Image", typeof(MessageBoxImage), typeof(ModernDialog),
+			nameof(Image), typeof(MessageBoxImage), typeof(ModernDialog),
 			new FrameworkPropertyMetadata(MessageBoxImage.None,
 			FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure)
 		);
+
+		/// <summary/>
+		public static readonly DependencyProperty OptionInfoProperty = DependencyProperty.Register(
+			nameof(OptionInfo), typeof(DialogOptionInfo), typeof(ModernDialog),
+			new FrameworkPropertyMetadata(
+				null,
+				FrameworkPropertyMetadataOptions.AffectsArrange |
+				FrameworkPropertyMetadataOptions.AffectsMeasure
+			)
+		);
+
+		/// <summary/>
+		public DialogOptionInfo OptionInfo
+		{
+			get => (DialogOptionInfo)GetValue(OptionInfoProperty);
+			set => SetValue(OptionInfoProperty, value);
+		}
 
 		/// <summary/>
 		public MessageBoxImage Image
@@ -236,17 +253,21 @@ namespace FirstFloor.ModernUI.Windows.Controls
 			MessageBoxButton button,
 			MessageBoxImage image,
 			SupportedThemes? theme,
-			Window owner)
+			DialogOptionInfo optionInfo,
+			Window owner,
+			out bool? optionValue
+		)
 		{
 			var dlg = new ModernDialog
 			{
 				Title = title,
-				Content = new BBCodeBlock { BBCode = text, Margin = new Thickness(0, 0, 0, 8) },
+				Content = new BBCodeBlock { BBCode = text, Margin = new (0, 0, 0, 8) },
 				MinHeight = 0,
 				MinWidth = 0,
 				MaxHeight = 480,
 				MaxWidth = 640,
-				Image = image
+				Image = image,
+				OptionInfo = optionInfo
 			};
 			if(theme.HasValue)
 				foreach(var s in new[]
@@ -269,8 +290,22 @@ namespace FirstFloor.ModernUI.Windows.Controls
 
 			dlg.Buttons = GetButtons(dlg, button);
 			dlg.ShowDialog();
+			optionValue = dlg.OptionInfo?.DefaultValue;
 			return dlg.messageBoxResult;
 		}
+
+		/// <summary>
+		/// Displays a messagebox.
+		/// </summary>
+		public static MessageBoxResult ShowMessage(
+			string text,
+			string title,
+			MessageBoxButton button,
+			MessageBoxImage image,
+			SupportedThemes? theme,
+			Window owner
+		)
+			=> ShowMessage(text, title, button, image, theme, null, owner, out _);
 
 		/// <summary>
 		/// Displays a messagebox.
@@ -282,7 +317,7 @@ namespace FirstFloor.ModernUI.Windows.Controls
 			MessageBoxImage image = MessageBoxImage.None,
 			Window owner=null)
 		{
-			return ShowMessage(text, title, button, image, null, owner);
+			return ShowMessage(text, title, button, image, null, null, owner, out _);
 		}
 
 		private static IEnumerable<Button> GetButtons(ModernDialog owner, MessageBoxButton button)
